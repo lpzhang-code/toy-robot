@@ -32,13 +32,13 @@ def test_on_table_three(robot):
 # Test place method.
 def test_place_one(robot):
     """Check that we can place the robot on the table."""
-    robot.place(0, 0, "N")
-    assert robot.state == {"X": 0, "Y": 0, "F": "N"}
+    robot.place(0, 0, "S")
+    assert robot.state == {"X": 0, "Y": 0, "F": "S"}
 
 
 def test_place_two(robot):
     """Check that we cannot place the robot off the table."""
-    robot.place(5, 7, "N")
+    robot.place(7, 7, "E")
     assert not robot.state
 
 
@@ -52,10 +52,17 @@ def test_place_three(robot):
 
 def test_place_four(robot):
     """Check that we can place the robot on the table after trying to place it off the table"""
-    robot.place(8, 8, "E")
+    robot.place(6, 8, "E")
     assert not robot.state
     robot.place(5, 5, "S")
     assert robot.state == {"X": 5, "Y": 5, "F": "S"}
+
+
+def test_place_five(robot):
+    """Check that we cannot place the robot off the table after placing it on the table."""
+    robot.place(0, 4, "N")
+    robot.place(2, 6, "S")
+    assert robot.state == {"X": 0, "Y": 4, "F": "N"}
 
 
 # Test left method.
@@ -68,14 +75,14 @@ def test_left_one(robot):
 
 def test_left_two(robot):
     """Check that robot can be turned left twice."""
-    robot.place(4, 3, "S")
+    robot.place(3, 3, "S")
     robot.left()
     robot.left()
     assert robot.state["F"] == "N"
 
 
 def test_left_three(robot):
-    """Check that robot cannot be turned left if it hasn't been placed"""
+    """Check that robot cannot be turned left if it hasn't been placed."""
     robot.left()
     assert not robot.state
 
@@ -98,8 +105,8 @@ def test_right_two(robot):
 
 
 def test_right_three(robot):
-    """Check that robot cannot be turned right after trying to place it off the table."""
-    robot.place(2, 7, "N")
+    """Check that robot cannot be turned right if it hasn't been placed on the table."""
+    robot.place(9, 9, "N")
     robot.right()
     assert not robot.state
 
@@ -130,9 +137,9 @@ def test_move_two(robot):
 
 def test_move_three(robot):
     """Check that robot can move one unit east."""
-    robot.place(4, 5, "E")
+    robot.place(3, 3, "E")
     robot.move()
-    assert robot.state == {"X": 5, "Y": 5, "F": "E"}
+    assert robot.state == {"X": 4, "Y": 3, "F": "E"}
 
 
 def test_move_four(robot):
@@ -151,24 +158,24 @@ def test_move_five(robot):
 
 # Test report method.
 def test_report_one(robot):
-    """Check robot's state after trying to move it off the table."""
-    robot.place(3, 2, "N")
-    robot.move()
-    robot.right()
+    """Check that robot can return to original position after trying to move off the table."""
+    robot.place(4, 1, "E")
     robot.move()
     robot.move()
+    robot.left()
+    robot.left()
     robot.move()
-    assert robot.report() == "5, 3, EAST"
+    assert robot.report() == "4, 1, WEST"
 
 
 def test_report_two(robot):
-    """Check robot's state after moving in zig zag pattern."""
+    """Check that robot can move in a zigzag pattern."""
     robot.place(0, 0, "N")
-    robot.move()
-    robot.right()
-    robot.move()
-    robot.left()
-    robot.move()
-    robot.right()
-    robot.move()
+    robot.move()  # 0, 1, N
+    robot.right()  # 0, 1, E
+    robot.move()  # 1, 1, E
+    robot.left()  # 1, 1, N
+    robot.move()  # 1, 2, N
+    robot.right()  # 1, 2, E
+    robot.move()  # 2, 2, E
     assert robot.report() == "2, 2, EAST"

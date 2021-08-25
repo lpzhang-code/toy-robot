@@ -1,5 +1,5 @@
 class Robot:
-    """Simulates robot moving on the table top."""
+    """Simulates a robot moving on a square 5 by 5 table top."""
 
     def __init__(self):
         self.state = None
@@ -26,11 +26,11 @@ class Robot:
         guide = {"N": (0, 1), "S": (0, -1), "E": (1, 0), "W": (-1, 0)}
 
         if self.state:
-            update_x = guide[self.state["F"]][0]
-            update_y = guide[self.state["F"]][1]
-            if self.on_table(self.state["X"] + update_x, self.state["Y"] + update_y):
-                self.state["X"] += update_x
-                self.state["Y"] += update_y
+            new_x = self.state["X"] + guide[self.state["F"]][0]
+            new_y = self.state["Y"] + guide[self.state["F"]][1]
+            if self.on_table(new_x, new_y):
+                self.state["X"] = new_x
+                self.state["Y"] = new_y
 
     def report(self):
         guide = {"N": "NORTH", "S": "SOUTH", "E": "EAST", "W": "WEST"}
