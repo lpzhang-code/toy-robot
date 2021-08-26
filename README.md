@@ -36,3 +36,32 @@ deactivate
 ```
 
 ## How to Run
+
+`cd` into the project folder: `robot.py` contains the Robot class, `test_robot.py` contains the tests for the Robot class, and `command.py` contains the command line interface.
+
+Run the tests in `test_robot.py`
+
+```
+pytest
+```
+
+Run the console application
+
+```
+python command.py
+```
+
+Let's get the robot to move in a square
+
+```
+PLACE 2,2,NORTH
+MOVE
+RIGHT
+MOVE
+RIGHT
+MOVE
+RIGHT
+MOVE
+REPORT
+Output: 2,2,WEST
+```
