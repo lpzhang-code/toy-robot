@@ -18,7 +18,7 @@ pip install virtualenv
 Create and activate the virtual environment (env)
 
 ```
-virtualenv -p python3 env
+virtualenv --python python3 env
 
 . env/bin/activate
 ```
